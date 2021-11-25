@@ -14,7 +14,7 @@ typedef struct
     int id;
     char titulo[128];
     char autor[128];
-    int precio;
+    float precio;
     int idEditorial;
 }eLibros;
 
@@ -31,8 +31,8 @@ int libros_getTitulo(eLibros* this,char* titulo);
 int libros_setAutor(eLibros* this,char* autor);
 int libros_getAutor(eLibros* this,char* autor);
 
-int libros_setPrecio(eLibros* this,int precio);
-int libros_getPrecio(eLibros* this,int* precio);
+int libros_setPrecio(eLibros* this,float precio);
+int libros_getPrecio(eLibros* this,float* precio);
 
 int libros_setIdEditorial(eLibros* this,int idEditorial);
 int libros_getIdEditorial(eLibros* this,int* idEditorial);
@@ -40,5 +40,6 @@ int libros_getIdEditorial(eLibros* this,int* idEditorial);
 void libros_printLibros(eLibros* this, eEditorial* thisEditorial);
 int libros_compareByAutor(void* emp1, void* emp2);
 int libros_filtrarEditorialMinotauro(void* pElement);
+int libros_preciosEditoriales(void* pElement);
 
 #endif /* LIBROS_H_ */

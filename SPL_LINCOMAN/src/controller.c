@@ -179,3 +179,91 @@ int controller_filtrarMinotauro(LinkedList* pArrayListLibros, LinkedList* pArray
 	}
 	return error;
 }
+
+/** \brief Guarda los datos mapeados desde el archivo “mapeado.csv” (modo texto).
+ *
+ *\param char* path = direccion del archivo
+ * \param LinkedList* pArrayListLibros = Lista donde se cargan los datos
+ *
+ * \return int error = Si los datos se cargan correctamente retorna 0, en caso de error retorna 1
+ *
+ */
+int controller_saveAsText(char* path, LinkedList* pArrayListLibros)
+{
+	int id;
+	char titulo[128];
+	char autor[128];
+	float precio;
+	int idEditorial;
+	int len;
+	int i;
+	int error;
+	eLibros* newLibros;
+	FILE* pArchivo;
+	error = 1;
+
+	if(pArrayListLibros != NULL)
+	{
+		//1. Abro el archivo en modo escritura
+		pArchivo = fopen(path, "w");
+
+		//2. Asigno espacio en memoria para el puntero a empleado
+		newLibros = libros_new();
+
+		//3. Obtengo el tamaño de la lista
+		len = ll_len(pArrayListLibros);
+
+		//4. Coloco la cabecera
+		fprintf(pArchivo, "id,titulo,autor,precio,idEditorial\n");
+		for(i=0; i<len;i++)
+		{
+			//5. obtengo el empleado con sus datos
+			newLibros = ll_get(pArrayListLibros, i);
+			if(newLibros != NULL)
+			{
+				//6. le paso los datos el empleado a las variables
+				libros_getAutor(newLibros, autor);
+				libros_getIdEditorial(newLibros, &idEditorial);
+				libros_getIdLibro(newLibros, &id);
+				libros_getPrecio(newLibros, &precio);
+				libros_getTitulo(newLibros, titulo);
+				//7. Escribo los datos del empleado en el archivo
+				fprintf(pArchivo, "%d,%s,%s,%.2f,%d\n", id,titulo,autor,precio,idEditorial);
+				error = 0;
+			}else{
+				error = 1;
+				break;
+			}
+		}
+		fclose(pArchivo);
+	}
+
+    return error;
+}
+
+/** \brief Lista los libros de la editorial MINOTAURO
+ *
+ * \param LinkedList* pArrayListLibros = lista que se va a filtrar para odenar y mostrar
+ * \param LinkedList* pArrayListEditorial = lista utilizada para tomar la descripcion de las editoriales
+ *
+ * \return int error = Si la lista se puede filtrar retorna 0, en caso de error retorna 1
+ *
+ */
+int controller_mapeo(LinkedList* pArrayListLibros, LinkedList* pArrayListEditoriales)
+{
+	int error;
+	LinkedList* listaMapeada = NULL;
+	error = 1;
+	if(pArrayListLibros != NULL)
+	{
+		listaMapeada = ll_map(pArrayListLibros, libros_preciosEditoriales);
+
+		if(listaMapeada != NULL)
+		{
+			error = 0;
+			controller_saveAsText("mapeado.csv",listaMapeada);
+			printf("\n\nEl archivo mapeado.csv fue guardado con exito\n");
+		}
+	}
+	return error;
+}

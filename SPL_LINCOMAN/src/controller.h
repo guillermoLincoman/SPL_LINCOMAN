@@ -17,5 +17,6 @@ int controller_loadFromTextEditoriales(LinkedList* pArrayListEditoriales);
 int controller_sortAutorAscendente(LinkedList* pArrayListLibros, LinkedList* pArrayListEditorial);
 int controller_ListLibros(LinkedList* pArrayListLibros, LinkedList* pArrayListEditoriales);
 int controller_filtrarMinotauro(LinkedList* pArrayListLibros, LinkedList* pArrayListEditoriales);
-
+int controller_mapeo(LinkedList* pArrayListLibros, LinkedList* pArrayListEditoriales);
+int controller_loadFromTextEditoriales(LinkedList* pArrayListEditoriales);
 #endif /* CONTROLLER_H_ */

@@ -21,7 +21,8 @@ void menuPrincipal()
     printf("|| 3. Ordenar lista por autor ascendente ||\n");
     printf("|| 4. Listar libros                      ||\n");
     printf("|| 5. Listar libros editorial MINOTAURO  ||\n");
-    printf("|| 6. Salir                              ||\n");
+    printf("|| 6. Guardar archivo mapeado            ||\n");
+    printf("|| 7. Salir                              ||\n");
 	printf("||_______________________________________||\n");
 }
 

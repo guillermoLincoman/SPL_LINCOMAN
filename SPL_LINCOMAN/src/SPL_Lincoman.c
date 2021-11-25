@@ -26,7 +26,7 @@ int main(void) {
 		flagEditorial= 1;
 		do{
 			menuPrincipal();
-			opcion = cargarUnEntero("Ingrese una opcion: ", "Error, ingrese una opcion", 1, 6, 4);
+			opcion = cargarUnEntero("Ingrese una opcion: ", "Error, ingrese una opcion", 1, 7, 4);
 			switch(opcion)
 			{
 				case 1:
@@ -74,6 +74,9 @@ int main(void) {
 					limpiar();
 					break;
 				case 3:
+					printf("+=======================================+\n");
+					printf("| LISTADO DE LIBROS ORDENADOS POR AUTOR |\n");
+					printf("+=======================================+");
 					if(flagLibro == 0){
 						controller_sortAutorAscendente(libros, editoriales);
 					}else{
@@ -82,6 +85,9 @@ int main(void) {
 					limpiar();
 					break;
 				case 4:
+					printf("+====================+\n");
+					printf("| LISTADO DE LIBROS  |\n");
+					printf("+====================+");
 					if(flagLibro == 0){
 						controller_ListLibros(libros, editoriales);
 					}else{
@@ -90,6 +96,9 @@ int main(void) {
 					limpiar();
 					break;
 				case 5:
+					printf("+=======================================+\n");
+					printf("| LISTADO DE LIBROS EDITORIAL MINOTAURO |\n");
+					printf("+=======================================+");
 					if(flagLibro == 0){
 						controller_filtrarMinotauro(libros, editoriales);
 					}else{
@@ -97,8 +106,25 @@ int main(void) {
 					}
 					limpiar();
 					break;
+				case 6:
+					printf("+===============+\n");
+					printf("| MAPEAR LIBROS |\n");
+					printf("+===============+");
+					if(flagLibro == 0){
+						controller_mapeo(libros, editoriales);
+					}else{
+						printf("\nPara Filtrar una editorial, cargue los archivos de libros y editoriales....\n");
+					}
+					limpiar();
+					break;
+				case 7:
+					printf("+=============================+\n");
+					printf("| GRACIAS POR USAR LIBROS UTN |\n");
+					printf("+=============================+");
+					limpiar();
+					break;
 			}
-		}while(opcion != 6);
+		}while(opcion != 7);
 
 	    return 0;
 	}

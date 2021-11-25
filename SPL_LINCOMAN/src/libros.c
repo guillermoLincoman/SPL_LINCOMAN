@@ -46,7 +46,7 @@ eLibros* libros_newParametros(char* id,char* titulo,char* autor, char* precio, c
 		libros_setIdLibro(libro, atoi(id));
 		libros_setTitulo(libro, titulo);
 		libros_setAutor(libro, autor);
-		libros_setPrecio(libro, atoi(precio));
+		libros_setPrecio(libro, atof(precio));
 		libros_setIdEditorial(libro, atoi(idEditorial));
 	}
 
@@ -190,7 +190,7 @@ int libros_getAutor(eLibros* this,char* autor)
  *
  * \return Devuelve 1 si hay un error y 0 si se obtuvo el id correctamente
  */
-int libros_setPrecio(eLibros* this,int precio)
+int libros_setPrecio(eLibros* this,float precio)
 {
 	int error;
 	error = 1;
@@ -209,7 +209,7 @@ int libros_setPrecio(eLibros* this,int precio)
  *
  * \return Devuelve 1 si hay un error y 0 si se obtuvo el nombre correctamente
  */
-int libros_getPrecio(eLibros* this,int* precio)
+int libros_getPrecio(eLibros* this,float* precio)
 {
 	int error;
 	error = 1;
@@ -271,7 +271,7 @@ void libros_printLibros(eLibros* this, eEditorial* thisEditorial)
 	int idLibro;
 	char aNombreAutor[128];
 	char titulo[128];
-	int precio;
+	float precio;
 	char editorial[128];
 
 	if(this != NULL )
@@ -282,7 +282,7 @@ void libros_printLibros(eLibros* this, eEditorial* thisEditorial)
 		libros_getPrecio(this, &precio);
 		editorial_getNombre(thisEditorial, editorial);
 
-		printf("||  %4d    | %32s | %23s |  $ %4d  | %19s ||\n", idLibro, titulo, aNombreAutor, precio, editorial);
+		printf("||  %4d    | %32s | %23s |$ %4.2f  | %19s ||\n", idLibro, titulo, aNombreAutor, precio, editorial);
 	}
 }
 
@@ -341,6 +341,45 @@ int libros_filtrarEditorialMinotauro(void* pElement)
 		if(idEditorial == 4)
 		{
 			rtn = 1;
+		}
+	}
+	return rtn;
+}
+
+/** \brief Compara empleados segun el nombre
+ *
+ * \param void* pElement = puntero a nombre Uno
+ *
+ * \return Retorna 1 si el libro pertenece a la editorial PLANETA y el precio es mayor o igual a 300
+ * 		   Retorna 2 si el libro pertenece a la editorial SIGLO y el precio es menor o igual a 200
+ * 		   Retorna 0 si el libro pertenece no pertenece a ninguna de las dos editoriales
+ *
+ */
+int libros_preciosEditoriales(void* pElement)
+{
+	int rtn;
+	int idEditorial;
+	float precio;
+	float total;
+	rtn = 0;
+	eLibros* pAuxElement;
+	if(pElement != NULL)
+	{
+		pAuxElement = (eLibros*) pElement;
+		libros_getIdEditorial(pAuxElement, &idEditorial);
+		libros_getPrecio(pAuxElement, &precio);
+		if(idEditorial == 1 && precio >= 300)
+		{
+			total = precio-(precio*0.2);
+			libros_setPrecio(pAuxElement, total);
+			rtn = 1;
+		}else{
+			if(idEditorial == 2 && precio <= 200)
+			{
+				total = precio-(precio*0.1);
+				libros_setPrecio(pAuxElement, total);
+				rtn = 1;
+			}
 		}
 	}
 	return rtn;

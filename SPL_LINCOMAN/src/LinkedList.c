@@ -726,6 +726,7 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 }
 
+
 int ll_count(LinkedList* this, int (*fn)(void* element))
 {
 	int acum;
@@ -775,4 +776,26 @@ LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
 	return linCopyFilter;
 }
 
-
+LinkedList* ll_map(LinkedList* this, int(*pFunc)(void* element))
+{
+	int len;
+	int i;
+	int ret;
+	int index;
+	void* pElement;
+	LinkedList* listaPrecios = NULL;
+	if(this != NULL)
+	{
+		listaPrecios = ll_clone(this);
+		len = ll_len(this);
+		for (i = 0; i < len; ++i) {
+			pElement = ll_get(this, i);
+			ret = pFunc(pElement);
+			if(ret == 1){
+				index = ll_indexOf(this, pElement);
+				ll_set(listaPrecios, index, pElement);
+			}
+		}
+	}
+	return listaPrecios;
+}
